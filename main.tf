@@ -36,10 +36,7 @@ terraform {
   }
 }
 
-provider "google" {
-  project = var.project_id
-  region  = var.region
-}
+
 
 # Discover all zones in the region
 data "google_compute_zones" "available" {

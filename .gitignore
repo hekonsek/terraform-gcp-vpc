@@ -1,0 +1,25 @@
+# Ignore Terraform local artifacts in test harness only
+# Keeps module root free to commit its own lock file if desired
+
+# Directories created by Terraform
+test/**/.terraform/
+
+# Local state files
+test/**/*.tfstate
+test/**/*.tfstate.*
+
+# Crash logs
+test/**/crash.log
+test/**/crash.*.log
+
+# CLI configuration files
+test/**/.terraformrc
+test/**/terraform.rc
+
+# Provider lock file (we don't need to commit it for tests)
+test/**/.terraform.lock.hcl
+
+# Local variable files that may contain secrets
+test/**/terraform.tfvars
+test/**/*.auto.tfvars
+
