@@ -1,3 +1,6 @@
+.terraform
+.terraform.lock.hcl
+
 # Ignore Terraform local artifacts in test harness only
 # Keeps module root free to commit its own lock file if desired
 

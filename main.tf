@@ -68,18 +68,18 @@ locals {
 
 # Create one regional subnet per zone label (all live in the same region)
 resource "google_compute_subnetwork" "subnets" {
-  for_each                = local.zone_cidrs
-  name                    = "${var.region}-${each.key}"
-  ip_cidr_range           = each.value
-  region                  = var.region
-  network                 = google_compute_network.vpc.id
+  for_each      = local.zone_cidrs
+  name          = "${var.region}-${each.key}"
+  ip_cidr_range = each.value
+  region        = var.region
+  network       = google_compute_network.vpc.id
 
   # Sensible defaults you can tweak
   private_ip_google_access = true
 
   log_config {
     aggregation_interval = "INTERVAL_5_SEC"
-    flow_sampling        = 0.1            # 10% sampling; adjust as needed
+    flow_sampling        = 0.1 # 10% sampling; adjust as needed
     metadata             = "INCLUDE_ALL_METADATA"
   }
 }
@@ -93,9 +93,9 @@ resource "google_compute_router" "nat_router" {
 }
 
 resource "google_compute_router_nat" "nat" {
-  name                               = "${var.region}-nat"
-  region                             = var.region
-  router                             = google_compute_router.nat_router.name
+  name   = "${var.region}-nat"
+  region = var.region
+  router = google_compute_router.nat_router.name
 
   nat_ip_allocate_option             = "AUTO_ONLY" # Google-managed NAT IPs
   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
@@ -108,8 +108,8 @@ resource "google_compute_router_nat" "nat" {
   }
 
   # Optional tuning:
-  min_ports_per_vm = 256   # adjust for high-connection workloads
-  udp_idle_timeout_sec = 30
+  min_ports_per_vm                 = 256 # adjust for high-connection workloads
+  udp_idle_timeout_sec             = 30
   tcp_established_idle_timeout_sec = 1200
 }
 
@@ -124,8 +124,8 @@ output "subnets" {
   value = {
     for k, s in google_compute_subnetwork.subnets :
     k => {
-      name  = s.name
-      cidr  = s.ip_cidr_range
+      name   = s.name
+      cidr   = s.ip_cidr_range
       region = s.region
     }
   }
