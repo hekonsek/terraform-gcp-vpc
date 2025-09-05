@@ -38,7 +38,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          vrz minor --update-file=README.md
+          vrz minor
 
       - name: Determine new version
         id: version
