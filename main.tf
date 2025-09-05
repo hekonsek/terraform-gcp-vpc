@@ -122,7 +122,7 @@ resource "google_compute_subnetwork" "subnets" {
   # Create secondary ranges for every subnet
   dynamic "secondary_ip_range" {
     for_each = [
-      { name = var.pods_ip_range_name,     cidr = local.pods_cidrs[each.key] },
+      { name = var.pods_ip_range_name, cidr = local.pods_cidrs[each.key] },
       { name = var.services_ip_range_name, cidr = local.services_cidrs[each.key] }
     ]
 
@@ -173,9 +173,9 @@ output "subnets" {
   value = {
     for k, s in google_compute_subnetwork.subnets :
     k => {
-      name   = s.name
-      cidr   = s.ip_cidr_range
-      region = s.region
+      name          = s.name
+      cidr          = s.ip_cidr_range
+      region        = s.region
       pods_cidr     = local.pods_cidrs[k]
       services_cidr = local.services_cidrs[k]
     }
