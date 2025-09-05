@@ -23,6 +23,30 @@ variable "network_cidr" {
   default     = "10.64.0.0/20"
 }
 
+variable "pods_base_cidr" {
+  description = "Base CIDR to derive Pods secondary IP ranges for all subnets. Must be large enough to subdivide into up to 16 ranges (we add 4 newbits)."
+  type        = string
+  default     = "10.80.0.0/14"
+}
+
+variable "services_base_cidr" {
+  description = "Base CIDR to derive Services secondary IP ranges for all subnets. Must be large enough to subdivide into up to 16 ranges (we add 4 newbits)."
+  type        = string
+  default     = "10.96.0.0/16"
+}
+
+variable "pods_ip_range_name" {
+  description = "Name for the Pods secondary IP range on each subnetwork."
+  type        = string
+  default     = "pods"
+}
+
+variable "services_ip_range_name" {
+  description = "Name for the Services secondary IP range on each subnetwork."
+  type        = string
+  default     = "services"
+}
+
 ############################
 # main.tf
 ############################
@@ -64,6 +88,18 @@ locals {
     z => cidrsubnet(var.network_cidr, 4, idx)
     if idx < local.max_subnets
   }
+
+  # Derive per-subnet Pods/Services secondary CIDRs by splitting base ranges
+  pods_cidrs = {
+    for idx, z in local.zones :
+    z => cidrsubnet(var.pods_base_cidr, 4, idx)
+    if idx < local.max_subnets
+  }
+  services_cidrs = {
+    for idx, z in local.zones :
+    z => cidrsubnet(var.services_base_cidr, 4, idx)
+    if idx < local.max_subnets
+  }
 }
 
 # Create one regional subnet per zone label (all live in the same region)
@@ -81,6 +117,19 @@ resource "google_compute_subnetwork" "subnets" {
     aggregation_interval = "INTERVAL_5_SEC"
     flow_sampling        = 0.1 # 10% sampling; adjust as needed
     metadata             = "INCLUDE_ALL_METADATA"
+  }
+
+  # Create secondary ranges for every subnet
+  dynamic "secondary_ip_range" {
+    for_each = [
+      { name = var.pods_ip_range_name,     cidr = local.pods_cidrs[each.key] },
+      { name = var.services_ip_range_name, cidr = local.services_cidrs[each.key] }
+    ]
+
+    content {
+      range_name    = secondary_ip_range.value.name
+      ip_cidr_range = secondary_ip_range.value.cidr
+    }
   }
 }
 
@@ -127,6 +176,17 @@ output "subnets" {
       name   = s.name
       cidr   = s.ip_cidr_range
       region = s.region
+      pods_cidr     = local.pods_cidrs[k]
+      services_cidr = local.services_cidrs[k]
     }
   }
+}
+output "pods_ip_range_name" {
+  description = "Range name used for GKE Pods secondary ranges on each subnetwork."
+  value       = var.pods_ip_range_name
+}
+
+output "services_ip_range_name" {
+  description = "Range name used for GKE Services secondary ranges on each subnetwork."
+  value       = var.services_ip_range_name
 }
