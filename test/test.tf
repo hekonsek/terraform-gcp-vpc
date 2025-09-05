@@ -22,10 +22,10 @@ module "vpc" {
   network_cidr = var.network_cidr
 
   # Create secondary ranges for every subnetwork (derived from base ranges)
-  pods_base_cidr          = var.pods_base_cidr
-  services_base_cidr      = var.services_base_cidr
-  pods_ip_range_name      = var.pods_ip_range_name
-  services_ip_range_name  = var.services_ip_range_name
+  pods_base_cidr         = var.pods_base_cidr
+  services_base_cidr     = var.services_base_cidr
+  pods_ip_range_name     = var.pods_ip_range_name
+  services_ip_range_name = var.services_ip_range_name
 }
 
 output "vpc_name" {
