@@ -130,4 +130,4 @@ resource "google_compute_router_nat" "nat" {
   tcp_established_idle_timeout_sec = 1200
 }
 
- 
+
