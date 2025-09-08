@@ -16,22 +16,28 @@ variable "network_name" {
 }
 
 variable "network_cidr" {
-  description = "Base CIDR for the VPC"
+  description = "Primary subnet CIDR for the VPC"
   type        = string
   default     = "10.64.0.0/20"
 }
 
-# GKE secondary ranges base CIDRs (will be subdivided per subnet)
-variable "pods_base_cidr" {
-  description = "Base CIDR to derive Pods secondary ranges for all subnets"
+variable "subnet_name" {
+  description = "Name of the primary regional subnet"
+  type        = string
+  default     = "subnet"
+}
+
+# GKE secondary ranges (single subnet)
+variable "pods_cidr" {
+  description = "CIDR for Pods secondary range"
   type        = string
   default     = "10.80.0.0/14"
 }
 
-variable "services_base_cidr" {
-  description = "Base CIDR to derive Services secondary ranges for all subnets"
+variable "services_cidr" {
+  description = "CIDR for Services secondary range"
   type        = string
-  default     = "10.96.0.0/16"
+  default     = "10.96.0.0/20"
 }
 
 variable "pods_ip_range_name" {

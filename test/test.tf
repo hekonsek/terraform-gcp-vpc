@@ -21,9 +21,10 @@ module "vpc" {
   network_name = var.network_name
   network_cidr = var.network_cidr
 
-  # Create secondary ranges for every subnetwork (derived from base ranges)
-  pods_base_cidr         = var.pods_base_cidr
-  services_base_cidr     = var.services_base_cidr
+  # Single regional subnet + two secondary ranges
+  subnet_name            = var.subnet_name
+  pods_cidr              = var.pods_cidr
+  services_cidr          = var.services_cidr
   pods_ip_range_name     = var.pods_ip_range_name
   services_ip_range_name = var.services_ip_range_name
 }

@@ -18,21 +18,27 @@ variable "network_name" {
 }
 
 variable "network_cidr" {
-  description = "Base CIDR for the VPC (must be /20 if you want 16 /24s)"
+  description = "Primary subnet CIDR (regional subnet for the VPC)"
   type        = string
   default     = "10.64.0.0/20"
 }
 
-variable "pods_base_cidr" {
-  description = "Base CIDR to derive Pods secondary IP ranges for all subnets. Must be large enough to subdivide into up to 16 ranges (we add 4 newbits)."
+variable "subnet_name" {
+  description = "Name of the primary regional subnet"
+  type        = string
+  default     = "subnet"
+}
+
+variable "pods_cidr" {
+  description = "CIDR for the Pods secondary IP range on the primary subnet"
   type        = string
   default     = "10.80.0.0/14"
 }
 
-variable "services_base_cidr" {
-  description = "Base CIDR to derive Services secondary IP ranges for all subnets. Must be large enough to subdivide into up to 16 ranges (we add 4 newbits)."
+variable "services_cidr" {
+  description = "CIDR for the Services secondary IP range on the primary subnet"
   type        = string
-  default     = "10.96.0.0/16"
+  default     = "10.96.0.0/20"
 }
 
 variable "pods_ip_range_name" {
@@ -62,17 +68,6 @@ terraform {
 
 
 
-# Discover all zones in the region
-data "google_compute_zones" "available" {
-  region = var.region
-}
-
-# Basic validation: a /20 contains 16 /24s → ensure zones <= 16
-locals {
-  zones       = sort(data.google_compute_zones.available.names)
-  max_subnets = 16
-}
-
 # Create a custom-mode VPC (no auto subnets)
 resource "google_compute_network" "vpc" {
   name                    = var.network_name
@@ -80,56 +75,29 @@ resource "google_compute_network" "vpc" {
   routing_mode            = "REGIONAL"
 }
 
-# Map each zone to a unique /24 carved from the /20
-# cidrsubnet(<base>, newbits, netnum) → /20 + 4 new bits = /24, 0..15
-locals {
-  zone_cidrs = {
-    for idx, z in local.zones :
-    z => cidrsubnet(var.network_cidr, 4, idx)
-    if idx < local.max_subnets
-  }
-
-  # Derive per-subnet Pods/Services secondary CIDRs by splitting base ranges
-  pods_cidrs = {
-    for idx, z in local.zones :
-    z => cidrsubnet(var.pods_base_cidr, 4, idx)
-    if idx < local.max_subnets
-  }
-  services_cidrs = {
-    for idx, z in local.zones :
-    z => cidrsubnet(var.services_base_cidr, 4, idx)
-    if idx < local.max_subnets
-  }
-}
-
-# Create one regional subnet per zone label (all live in the same region)
-resource "google_compute_subnetwork" "subnets" {
-  for_each      = local.zone_cidrs
-  name          = "${var.region}-${each.key}"
-  ip_cidr_range = each.value
+# Create a single regional subnet with secondary ranges for GKE
+resource "google_compute_subnetwork" "subnet" {
+  name          = "${var.region}-${var.subnet_name}"
+  ip_cidr_range = var.network_cidr
   region        = var.region
   network       = google_compute_network.vpc.id
 
-  # Sensible defaults you can tweak
   private_ip_google_access = true
 
   log_config {
     aggregation_interval = "INTERVAL_5_SEC"
-    flow_sampling        = 0.1 # 10% sampling; adjust as needed
+    flow_sampling        = 0.1
     metadata             = "INCLUDE_ALL_METADATA"
   }
 
-  # Create secondary ranges for every subnet
-  dynamic "secondary_ip_range" {
-    for_each = [
-      { name = var.pods_ip_range_name, cidr = local.pods_cidrs[each.key] },
-      { name = var.services_ip_range_name, cidr = local.services_cidrs[each.key] }
-    ]
+  secondary_ip_range {
+    range_name    = var.pods_ip_range_name
+    ip_cidr_range = var.pods_cidr
+  }
 
-    content {
-      range_name    = secondary_ip_range.value.name
-      ip_cidr_range = secondary_ip_range.value.cidr
-    }
+  secondary_ip_range {
+    range_name    = var.services_ip_range_name
+    ip_cidr_range = var.services_cidr
   }
 }
 
@@ -171,13 +139,12 @@ output "vpc_name" {
 
 output "subnets" {
   value = {
-    for k, s in google_compute_subnetwork.subnets :
-    k => {
-      name          = s.name
-      cidr          = s.ip_cidr_range
-      region        = s.region
-      pods_cidr     = local.pods_cidrs[k]
-      services_cidr = local.services_cidrs[k]
+    (var.subnet_name) = {
+      name          = google_compute_subnetwork.subnet.name
+      cidr          = google_compute_subnetwork.subnet.ip_cidr_range
+      region        = google_compute_subnetwork.subnet.region
+      pods_cidr     = var.pods_cidr
+      services_cidr = var.services_cidr
     }
   }
 }
