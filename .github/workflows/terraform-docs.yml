@@ -23,12 +23,15 @@ jobs:
       - name: Fix file ownership
         run: sudo chown -R $USER:$USER .
 
+      - name: Display readme
+        run: cat README.md
+
       - name: Commit and push README.md
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          if git diff README.md; then
+          if git diff  --quiet README.md; then
             echo "No changes to commit"
             exit 0
           fi
