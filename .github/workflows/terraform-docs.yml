@@ -5,6 +5,9 @@ on:
       - '*.tf'
   workflow_dispatch:
 
+permissions:
+  contents: write  # needed to push the commit
+
 jobs:
   docs:
     runs-on: ubuntu-latest
