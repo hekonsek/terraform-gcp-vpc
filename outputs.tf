@@ -1,6 +1,6 @@
 output "vpc_name" {
   description = "Name of the VPC"
-  value = google_compute_network.vpc.name
+  value       = google_compute_network.vpc.name
 }
 
 output "vpc_subnet_name" {
