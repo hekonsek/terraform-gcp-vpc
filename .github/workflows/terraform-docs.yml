@@ -1,0 +1,17 @@
+name: Generate terraform-docs
+on:
+  push:
+    paths:
+      - '*.tf'
+  workflow_dispatch:
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: terraform-docs/gh-actions@v1
+        with:
+          output-file: README.md
+          output-method: inject
+          working-dir: .
