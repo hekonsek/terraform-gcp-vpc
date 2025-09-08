@@ -2,7 +2,7 @@
 # variables.tf
 ############################
 variable "project_id" {
-  description = "GCP project ID"
+  description = "GCP project ID to host the VPC"
   type        = string
 }
 
