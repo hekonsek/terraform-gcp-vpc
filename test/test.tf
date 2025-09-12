@@ -27,7 +27,7 @@ module "vpc" {
 }
 
 variable "network_name" {
-  default     = "test-vpc"
+  default = "test-vpc"
 }
 
 output "vpc_name" {
