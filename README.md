@@ -45,7 +45,7 @@ No modules.
 | <a name="input_pods_cidr"></a> [pods\_cidr](#input\_pods\_cidr) | CIDR for the Pods secondary IP range on the primary subnet | `string` | `"10.80.0.0/14"` | no |
 | <a name="input_pods_ip_range_name"></a> [pods\_ip\_range\_name](#input\_pods\_ip\_range\_name) | Name for the Pods secondary IP range on each subnetwork. | `string` | `"pods"` | no |
 | <a name="input_project_id"></a> [project\_id](#input\_project\_id) | GCP project ID to host the VPC | `string` | n/a | yes |
-| <a name="input_region"></a> [region](#input\_region) | GCP region, e.g. us-central1 | `string` | n/a | yes |
+| <a name="input_region"></a> [region](#input\_region) | GCP region, e.g. us-central1 | `string` | `"us-central1"` | no |
 | <a name="input_services_cidr"></a> [services\_cidr](#input\_services\_cidr) | CIDR for the Services secondary IP range on the primary subnet | `string` | `"10.96.0.0/20"` | no |
 | <a name="input_services_ip_range_name"></a> [services\_ip\_range\_name](#input\_services\_ip\_range\_name) | Name for the Services secondary IP range on each subnetwork. | `string` | `"services"` | no |
 | <a name="input_subnet_name"></a> [subnet\_name](#input\_subnet\_name) | Name of the primary regional subnet | `string` | `"subnet"` | no |
