@@ -63,3 +63,14 @@ No modules.
 | <a name="output_vpc_subnet_region"></a> [vpc\_subnet\_region](#output\_vpc\_subnet\_region) | Region of the primary subnet |
 | <a name="output_vpc_subnet_services_cidr"></a> [vpc\_subnet\_services\_cidr](#output\_vpc\_subnet\_services\_cidr) | CIDR for the Services secondary IP range on the primary subnet |
 <!-- END_TF_DOCS -->
+
+## Testing (Terratest)
+
+- Prerequisites: Terraform >= 1.5, Go >= 1.22, and a GCP Project you can deploy into.
+- Set your project id: export `GOOGLE_CLOUD_PROJECT=<your-project-id>` (or set `TF_VAR_project_id`).
+- Run tests: `make test` (or `cd test && go test -v -timeout 45m`).
+
+Notes:
+- Tests deploy real resources and then destroy them. Ensure your credentials are configured (Application Default Credentials or `GOOGLE_APPLICATION_CREDENTIALS`).
+- You can adjust defaults via env vars: `TERRATEST_REGION`, `TERRATEST_NETWORK_CIDR`, `TERRATEST_PODS_CIDR`, `TERRATEST_SERVICES_CIDR`, `TERRATEST_PODS_RANGE_NAME`, `TERRATEST_SERVICES_RANGE_NAME`.
+- Set `TERRATEST_SKIP_DEPLOY=1` to skip the deploy step (useful locally when you only want to lint/plan).

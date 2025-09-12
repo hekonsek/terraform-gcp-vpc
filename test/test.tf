@@ -16,7 +16,7 @@ module "vpc" {
   source = "./.." # repo root as module source
 
   project_id   = var.project_id
-  network_name = "test-vpc"
+  network_name = var.network_name
   network_cidr = var.network_cidr
 
   # Single regional subnet + two secondary ranges
@@ -24,6 +24,10 @@ module "vpc" {
   services_cidr          = var.services_cidr
   pods_ip_range_name     = var.pods_ip_range_name
   services_ip_range_name = var.services_ip_range_name
+}
+
+variable "network_name" {
+  default     = "test-vpc"
 }
 
 output "vpc_name" {
