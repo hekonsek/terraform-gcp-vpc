@@ -19,7 +19,7 @@ resource "google_compute_network" "vpc" {
 
 # Create a single regional subnet with secondary ranges for GKE
 resource "google_compute_subnetwork" "subnet" {
-  name          = var.subnet_name
+  name          = var.subnet_name != "" ? var.subnet_name : "${var.network_name}-subnet"
   ip_cidr_range = var.network_cidr
   region        = var.region
   network       = google_compute_network.vpc.id

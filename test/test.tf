@@ -10,19 +10,16 @@ terraform {
 
 provider "google" {
   project = var.project_id
-  region  = var.region
 }
 
 module "vpc" {
   source = "./.." # repo root as module source
 
   project_id   = var.project_id
-  region       = var.region
-  network_name = var.network_name
+  network_name = "test-vpc"
   network_cidr = var.network_cidr
 
   # Single regional subnet + two secondary ranges
-  subnet_name            = var.subnet_name
   pods_cidr              = var.pods_cidr
   services_cidr          = var.services_cidr
   pods_ip_range_name     = var.pods_ip_range_name

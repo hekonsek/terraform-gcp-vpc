@@ -12,7 +12,7 @@ variable "region" {
 variable "network_name" {
   description = "Name of the custom VPC"
   type        = string
-  default     = "custom-vpc"
+  default     = "vpc"
 }
 
 variable "network_cidr" {
@@ -22,9 +22,9 @@ variable "network_cidr" {
 }
 
 variable "subnet_name" {
-  description = "Name of the primary regional subnet"
+  description = "Name of the subnet"
   type        = string
-  default     = "subnet"
+  default     = ""
 }
 
 variable "pods_cidr" {
