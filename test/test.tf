@@ -33,8 +33,8 @@ output "vpc_name" {
   value = module.vpc.vpc_name
 }
 
-output "subnets" {
-  value = module.vpc.subnets
+output "subnet" {
+  value = module.vpc.vpc_subnet_name
 }
 
 output "pods_range_name" {
