@@ -16,7 +16,7 @@ resource "google_compute_network" "vpc" {
 
 # Create a single regional subnet with secondary ranges for GKE
 resource "google_compute_subnetwork" "subnet" {
-  name          = var.subnet_name != "" ? var.subnet_name : "${var.network_name}-subnet"
+  name          = var.subnetwork_name != "" ? var.subnetwork_name : "${var.network_name}-subnet"
   ip_cidr_range = var.network_cidr
   region        = var.region
   network       = google_compute_network.vpc.id
@@ -68,4 +68,3 @@ resource "google_compute_router_nat" "nat" {
   udp_idle_timeout_sec             = 30
   tcp_established_idle_timeout_sec = 1200
 }
-

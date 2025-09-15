@@ -30,12 +30,12 @@ variable "network_name" {
   default = "test-vpc"
 }
 
-output "vpc_name" {
-  value = module.vpc.vpc_name
+output "network_name" {
+  value = module.vpc.network_name
 }
 
-output "subnet" {
-  value = module.vpc.vpc_subnet_name
+output "subnetwork_name" {
+  value = module.vpc.subnetwork_name
 }
 
 output "pods_range_name" {

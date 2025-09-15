@@ -79,8 +79,8 @@ func TestVPCModule_ApplyAndVerify(t *testing.T) {
     terraform.InitAndApply(t, tfOpts)
 
     // Validate root outputs defined in test/test.tf
-    vpcName := terraform.Output(t, tfOpts, "vpc_name")
-    require.Equal(t, networkName, vpcName, "VPC name should match the requested network_name")
+    vpcName := terraform.Output(t, tfOpts, "network_name")
+    require.Equal(t, networkName, vpcName, "Network name should match the requested network_name")
 
     podsRange := terraform.Output(t, tfOpts, "pods_range_name")
     require.Equal(t, podsRangeName, podsRange)
@@ -88,7 +88,6 @@ func TestVPCModule_ApplyAndVerify(t *testing.T) {
     servicesRange := terraform.Output(t, tfOpts, "services_range_name")
     require.Equal(t, servicesRangeName, servicesRange)
 
-    subnetName := terraform.Output(t, tfOpts, "subnet")
-    require.Contains(t, subnetName, networkName, "Subnet name should include network name by default")
+    subnetName := terraform.Output(t, tfOpts, "subnetwork_name")
+    require.Contains(t, subnetName, networkName, "Subnetwork name should include network name by default")
 }
-

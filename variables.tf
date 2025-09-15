@@ -21,8 +21,8 @@ variable "network_cidr" {
   default     = "10.64.0.0/20"
 }
 
-variable "subnet_name" {
-  description = "Name of the subnet"
+variable "subnetwork_name" {
+  description = "Name of the subnetwork"
   type        = string
   default     = ""
 }
@@ -50,4 +50,3 @@ variable "services_ip_range_name" {
   type        = string
   default     = "services"
 }
-

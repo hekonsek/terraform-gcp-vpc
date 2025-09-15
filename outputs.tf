@@ -1,10 +1,10 @@
-output "vpc_name" {
-  description = "Name of the VPC"
+output "network_name" {
+  description = "Name of the VPC network"
   value       = google_compute_network.vpc.name
 }
 
-output "vpc_subnet_name" {
-  description = "Name of the primary regional subnet"
+output "subnetwork_name" {
+  description = "Name of the primary subnetwork"
   value       = google_compute_subnetwork.subnet.name
 }
 
