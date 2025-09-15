@@ -54,6 +54,8 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_nat_name"></a> [nat\_name](#output\_nat\_name) | Name of the Cloud NAT |
+| <a name="output_nat_router_name"></a> [nat\_router\_name](#output\_nat\_router\_name) | Name of the Cloud Router used for NAT |
 | <a name="output_network_name"></a> [network\_name](#output\_network\_name) | Name of the VPC network |
 | <a name="output_pods_ip_range_name"></a> [pods\_ip\_range\_name](#output\_pods\_ip\_range\_name) | Range name used for GKE Pods secondary ranges on each subnetwork. |
 | <a name="output_services_ip_range_name"></a> [services\_ip\_range\_name](#output\_services\_ip\_range\_name) | Range name used for GKE Services secondary ranges on each subnetwork. |
