@@ -48,17 +48,17 @@ No modules.
 | <a name="input_region"></a> [region](#input\_region) | GCP region, e.g. us-central1 | `string` | `"us-central1"` | no |
 | <a name="input_services_cidr"></a> [services\_cidr](#input\_services\_cidr) | CIDR for the Services secondary IP range on the primary subnet | `string` | `"10.96.0.0/20"` | no |
 | <a name="input_services_ip_range_name"></a> [services\_ip\_range\_name](#input\_services\_ip\_range\_name) | Name for the Services secondary IP range on each subnetwork. | `string` | `"services"` | no |
-| <a name="input_subnet_name"></a> [subnet\_name](#input\_subnet\_name) | Name of the subnet | `string` | `""` | no |
+| <a name="input_subnetwork_name"></a> [subnetwork\_name](#input\_subnetwork\_name) | Name of the subnetwork | `string` | `""` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
+| <a name="output_network_name"></a> [network\_name](#output\_network\_name) | Name of the VPC network |
 | <a name="output_pods_ip_range_name"></a> [pods\_ip\_range\_name](#output\_pods\_ip\_range\_name) | Range name used for GKE Pods secondary ranges on each subnetwork. |
 | <a name="output_services_ip_range_name"></a> [services\_ip\_range\_name](#output\_services\_ip\_range\_name) | Range name used for GKE Services secondary ranges on each subnetwork. |
-| <a name="output_vpc_name"></a> [vpc\_name](#output\_vpc\_name) | Name of the VPC |
+| <a name="output_subnetwork_name"></a> [subnetwork\_name](#output\_subnetwork\_name) | Name of the primary subnetwork |
 | <a name="output_vpc_subnet_cidr"></a> [vpc\_subnet\_cidr](#output\_vpc\_subnet\_cidr) | Primary subnet CIDR range |
-| <a name="output_vpc_subnet_name"></a> [vpc\_subnet\_name](#output\_vpc\_subnet\_name) | Name of the primary regional subnet |
 | <a name="output_vpc_subnet_pods_cidr"></a> [vpc\_subnet\_pods\_cidr](#output\_vpc\_subnet\_pods\_cidr) | CIDR for the Pods secondary IP range on the primary subnet |
 | <a name="output_vpc_subnet_region"></a> [vpc\_subnet\_region](#output\_vpc\_subnet\_region) | Region of the primary subnet |
 | <a name="output_vpc_subnet_services_cidr"></a> [vpc\_subnet\_services\_cidr](#output\_vpc\_subnet\_services\_cidr) | CIDR for the Services secondary IP range on the primary subnet |
