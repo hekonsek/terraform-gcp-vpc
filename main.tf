@@ -43,13 +43,13 @@ resource "google_compute_subnetwork" "subnet" {
 # ---- Cloud NAT for outbound internet (no external IPs needed) ----
 
 resource "google_compute_router" "nat_router" {
-  name    = "${var.region}-nat-router"
+  name    = "${var.network_name}-${var.region}-nat-router"
   region  = var.region
   network = google_compute_network.vpc.id
 }
 
 resource "google_compute_router_nat" "nat" {
-  name   = "${var.region}-nat"
+  name   = "${var.network_name}-${var.region}-nat"
   region = var.region
   router = google_compute_router.nat_router.name
 
