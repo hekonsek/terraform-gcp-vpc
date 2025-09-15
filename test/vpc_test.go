@@ -90,4 +90,15 @@ func TestVPCModule_ApplyAndVerify(t *testing.T) {
 
     subnetName := terraform.Output(t, tfOpts, "subnetwork_name")
     require.Contains(t, subnetName, networkName, "Subnetwork name should include network name by default")
+
+    // Assert NAT router and NAT names include VPC name before region prefix
+    vpcRegion := terraform.Output(t, tfOpts, "vpc_region")
+    natRouterName := terraform.Output(t, tfOpts, "nat_router_name")
+    natName := terraform.Output(t, tfOpts, "nat_name")
+
+    expectedRouter := fmt.Sprintf("%s-%s-nat-router", networkName, vpcRegion)
+    expectedNat := fmt.Sprintf("%s-%s-nat", networkName, vpcRegion)
+
+    require.Equal(t, expectedRouter, natRouterName, "NAT router name should be prefixed with VPC name before region")
+    require.Equal(t, expectedNat, natName, "NAT name should be prefixed with VPC name before region")
 }

@@ -45,3 +45,15 @@ output "pods_range_name" {
 output "services_range_name" {
   value = module.vpc.services_ip_range_name
 }
+
+output "nat_router_name" {
+  value = module.vpc.nat_router_name
+}
+
+output "nat_name" {
+  value = module.vpc.nat_name
+}
+
+output "vpc_region" {
+  value = module.vpc.vpc_subnet_region
+}

@@ -37,3 +37,13 @@ output "services_ip_range_name" {
   description = "Range name used for GKE Services secondary ranges on each subnetwork."
   value       = var.services_ip_range_name
 }
+
+output "nat_router_name" {
+  description = "Name of the Cloud Router used for NAT"
+  value       = google_compute_router.nat_router.name
+}
+
+output "nat_name" {
+  description = "Name of the Cloud NAT"
+  value       = google_compute_router_nat.nat.name
+}
