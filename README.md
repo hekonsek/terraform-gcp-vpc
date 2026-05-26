@@ -40,6 +40,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_nat_log_filter"></a> [nat\_log\_filter](#input\_nat\_log\_filter) | Cloud NAT logging filter. Valid values are ERRORS\_ONLY, TRANSLATION\_ERRORS, and ALL. | `string` | `"ERRORS_ONLY"` | no |
 | <a name="input_network_cidr"></a> [network\_cidr](#input\_network\_cidr) | Primary subnet CIDR (regional subnet for the VPC) | `string` | `"10.64.0.0/20"` | no |
 | <a name="input_network_name"></a> [network\_name](#input\_network\_name) | Name of the custom VPC | `string` | `"vpc"` | no |
 | <a name="input_pods_cidr"></a> [pods\_cidr](#input\_pods\_cidr) | CIDR for the Pods secondary IP range on the primary subnet | `string` | `"10.80.0.0/14"` | no |
