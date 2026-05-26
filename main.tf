@@ -50,7 +50,7 @@ resource "google_compute_router_nat" "nat" {
 
   log_config {
     enable = true
-    filter = "ALL" # OPTIONS: ERRORS_ONLY | TRANSLATION_ERRORS | ALL
+    filter = var.nat_log_filter
   }
 
   # Optional tuning:

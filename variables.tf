@@ -50,3 +50,14 @@ variable "services_ip_range_name" {
   type        = string
   default     = "services"
 }
+
+variable "nat_log_filter" {
+  description = "Cloud NAT logging filter. Valid values are ERRORS_ONLY, TRANSLATION_ERRORS, and ALL."
+  type        = string
+  default     = "ERRORS_ONLY"
+
+  validation {
+    condition     = contains(["ERRORS_ONLY", "TRANSLATION_ERRORS", "ALL"], var.nat_log_filter)
+    error_message = "nat_log_filter must be one of ERRORS_ONLY, TRANSLATION_ERRORS, or ALL."
+  }
+}
