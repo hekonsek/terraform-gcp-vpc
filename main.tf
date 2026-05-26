@@ -30,7 +30,7 @@ resource "google_compute_subnetwork" "subnet" {
   }
 }
 
-# ---- Cloud NAT for outbound internet (no external IPs needed) ----
+# Cloud NAT for outbound internet
 
 resource "google_compute_router" "nat_router" {
   name    = "${var.network_name}-${var.region}-nat-router"
