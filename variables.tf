@@ -10,7 +10,7 @@ variable "region" {
 }
 
 variable "network_name" {
-  description = "Name of the custom VPC"
+  description = "Name of the VPC to be created"
   type        = string
   default     = "vpc"
 }
