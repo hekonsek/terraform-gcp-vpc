@@ -21,6 +21,7 @@ jobs:
           output-method: inject
           working-dir: .
 
+      # Needed to avoid permission errors in the next step
       - name: Fix file ownership
         run: sudo chown -R $USER:$USER .
 
