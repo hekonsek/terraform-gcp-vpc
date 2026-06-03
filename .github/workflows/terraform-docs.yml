@@ -20,8 +20,8 @@ jobs:
           output-method: inject
           working-dir: .
 
-      - name: Fix file ownership
-        run: sudo chown -R $USER:$USER .
+      # - name: Fix file ownership
+      #   run: sudo chown -R $USER:$USER .
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
