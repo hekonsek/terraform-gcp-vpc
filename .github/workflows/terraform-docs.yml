@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: terraform-docs/gh-actions@v1
+      - uses: terraform-docs/gh-actions@v1.4.1
         with:
           output-file: README.md
           output-method: inject
