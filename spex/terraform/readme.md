@@ -7,4 +7,5 @@ The main features of this VPC are:
 - Avoids Default VPC's CIDR conflicts with VPC peered networks
 - Uses Cloud NAT so private GKE nodes and workloads can access the Internet without external IP addresses
 - Comes with a single regional subnet (suitable for multi-AZ GKE clusters)
+- Enables Private Google Access on the subnet (so you can access GCP services)
 - Comes with secondary IP ranges for pods and services
